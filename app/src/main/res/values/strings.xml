@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">login_out</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="email">email</string>
+    <string name="login_to_continue">Login_to_continue</string>
+    <string name="password">password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="create_new_Account">Create New Account</string>
+    <string name="login_to_Continue">LogIn To Continue</string>
+    <string name="add_image">Add Image</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+</resources>

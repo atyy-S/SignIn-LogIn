@@ -1,0 +1,21 @@
+package com.example.login_out.firebase;
+
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.Objects;
+
+public class MessagingService extends FirebaseMessagingService {
+    public void onNewToken(@NonNull String token){
+        super.onNewToken(token);
+        Log.d("FCM","Token: " +token);
+    }
+    public void onMessageReceived(@NonNull RemoteMessage message){
+        super.onMessageReceived(message);
+        Log.d("FCM","460 Message "+ Objects.requireNonNull(message.getNotification()).getBody());
+    }
+}

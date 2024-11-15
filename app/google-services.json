@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "575594518628",
+    "project_id": "inout-27119",
+    "storage_bucket": "inout-27119.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575594518628:android:99856c9703122ae51ee771",
+        "android_client_info": {
+          "package_name": "com.example.login_out"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6efIQZFaiwEoDxSZ9W9-83kJC4UCfL2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
