@@ -18,6 +18,13 @@ public class SigninActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
     private PreferenceManager preferenceManager;
 
+    /**
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +35,10 @@ public class SigninActivity extends AppCompatActivity {
         setListeners();
     }
 
+    /**
+     *listener for UI elements that allow user navigate to sign-up page
+     * or check user detail information is valid or not
+     */
     private void setListeners() {
         binding.textCreateNewAccount.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), SignupActivity.class)));
@@ -38,10 +49,18 @@ public class SigninActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     *
+     * @param message
+     */
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * SignIn() for the sign-in of the app, which connected to the firebase firestore to authenticate the user information.
+     * manage the data , and helping with navigation to the main screen when they successfully sign-in
+     */
     private void SignIn() {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
@@ -55,7 +74,7 @@ public class SigninActivity extends AppCompatActivity {
 
                         preferenceManager.putBoolean(Constant.KEY_IS_SIGNED_IN, true);
                         preferenceManager.putString(Constant.KEY_USER_ID, documentSnapshot.getId());
-                        preferenceManager.putString(Constant.KEY_NAME, documentSnapshot.getString(Constant.KEY_NAME));
+                        preferenceManager.putString(Constant.KEY_FIRSTNAME, documentSnapshot.getString(Constant.KEY_FIRSTNAME));
                         preferenceManager.putString(Constant.KEY_IMAGE, documentSnapshot.getString(Constant.KEY_IMAGE));
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -68,6 +87,11 @@ public class SigninActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     *
+     * @param isLoading to show sign-in in progress. it'll connect to Firestore database
+     * and check either email/password matching with database.
+     */
     private void loading(Boolean isLoading) {
         if (isLoading) {
             binding.buttonSignIn.setVisibility(View.INVISIBLE);
@@ -78,6 +102,9 @@ public class SigninActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * @return check is the data user enter is valid or not
+     */
     private boolean isValidateSignInDetails() {
         if (binding.inputEmail.getText().toString().trim().isEmpty()) {
             showToast("Please Enter your Email");

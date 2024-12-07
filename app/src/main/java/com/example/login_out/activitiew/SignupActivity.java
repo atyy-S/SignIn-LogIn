@@ -1,4 +1,4 @@
-package com.example.login_out.activitiew; // Ensure correct package name
+package com.example.login_out.activitiew;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.login_out.databinding.ActivitySignupBinding;
 import com.example.login_out.utilities.Constant;
-import com.example.login_out.utilities.PreferenceManager; // Correct import
+import com.example.login_out.utilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
@@ -30,6 +30,13 @@ public class SignupActivity extends AppCompatActivity {
     private String encodeImage;
     private PreferenceManager preferenceManager;
 
+    /**
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +46,10 @@ public class SignupActivity extends AppCompatActivity {
         setListener();
     }
 
+    /**setListener()
+     *for UI element, lead to sign in page, check information from the sign-up page
+     * help to get image from storage
+     */
     private void setListener() {
         binding.textSignIn.setOnClickListener(v -> onBackPressed());
         binding.buttonSignUp.setOnClickListener(v -> {
@@ -57,11 +68,16 @@ public class SignupActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     *SignUp method manages the sign-up process in your Android app, leveraging Firebase Firestore
+     * to store user information and handle sign-up logic
+     */
     private void SignUp() {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         HashMap<String, String> user = new HashMap<>();
-        user.put(Constant.KEY_NAME, binding.inputName.getText().toString());
+        user.put(Constant.KEY_FIRSTNAME, binding.inputFirstName.getText().toString());
+        user.put(Constant.KEY_LASTNAME, binding.inputLastName.getText().toString());
         user.put(Constant.KEY_EMAIL, binding.inputEmail.getText().toString());
         user.put(Constant.KEY_PASSWORD, binding.inputPassword.getText().toString());
         user.put(Constant.KEY_IMAGE, encodeImage);
@@ -71,7 +87,8 @@ public class SignupActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentReference -> {
                     loading(false);
                     preferenceManager.putBoolean(Constant.KEY_IS_SIGNED_IN, true);
-                    preferenceManager.putString(Constant.KEY_NAME, binding.inputName.getText().toString());
+                    preferenceManager.putString(Constant.KEY_FIRSTNAME, binding.inputFirstName.getText().toString());
+                    preferenceManager.putString(Constant.KEY_LASTNAME, binding.inputLastName.getText().toString());
                     preferenceManager.putString(Constant.KEY_IMAGE, encodeImage);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -83,6 +100,10 @@ public class SignupActivity extends AppCompatActivity {
                 });
     }
 
+    /**@param bitmap
+     * reducing image size, and transfer image data to text to then being store.
+     * @return
+     */
     private String encodeImage(Bitmap bitmap) {
         int previewWidth = 150;
         int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
@@ -94,6 +115,10 @@ public class SignupActivity extends AppCompatActivity {
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
+    /**
+     *pickImage allows users to select an image from their gallery, displays
+     * it in the profile image view, and encodes it for further use, such as storing in a database
+     */
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
@@ -112,12 +137,20 @@ public class SignupActivity extends AppCompatActivity {
                 }
             });
 
+    /**
+     *isValidateSignUpDetails() check if data user enter is valid or not
+     * or they fill all the information or not
+     * @return
+     */
     private Boolean isValidateSignUpDetails() {
         if (encodeImage == null) {
             showToast("Please add a profile image");
             return false;
-        } else if (binding.inputName.getText().toString().trim().isEmpty()) {
-            showToast("Please Enter your Name");
+        } else if (binding.inputFirstName.getText().toString().trim().isEmpty()) {
+            showToast("Please Enter your First Name");
+            return false;
+        } else if (binding.inputLastName.getText().toString().trim().isEmpty()) {
+            showToast("Please Enter your Last Name");
             return false;
         } else if (binding.inputEmail.getText().toString().trim().isEmpty()) {
             showToast("Please Enter your Email");
@@ -139,6 +172,10 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * To make sure user know the data is being check
+     * @param isLoading
+     */
     private void loading(Boolean isLoading) {
         if (isLoading) {
             binding.buttonSignUp.setVisibility(View.INVISIBLE);

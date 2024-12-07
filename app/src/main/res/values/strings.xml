@@ -12,4 +12,7 @@
     <string name="name">Name</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up">Sign Up</string>
+    <string name="last_name">Last Name</string>
+    <string name="firts_name">Firts Name</string>
+    <string name="type_a_message">Type a Message</string>
 </resources>
